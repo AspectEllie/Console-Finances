@@ -87,37 +87,61 @@ var finances = [
   ["Feb-2017", 671099],
 ];
 
+// calculates total number of months
 var totalMonths = finances.length;
+
+// Initialise tracker variables before for loop
 var total = 0;
 var changes = [];
 
+// Iterate over finance data list
 for (var index = 0; index < finances.length; index++) {
+
+  // Add each profit or loss to total variable
   total = total + finances[index][1];
 
+  // Skip first month to calculate differences due to no data for the previous month 
   if (index > 0) {
+    // Calculate difference between current month value and previous months value
     var difference = finances[index][1] - finances[index - 1][1];
+
+    // Add current month name and difference to temporary list
     var tempList = [finances[index][0], difference];
+
+    // Add temoporary list to tracker list
     changes.push(tempList);
   }
 }
 
+// Initiate tracker variables- set the greatest increase and greatest decrease to the change for the first month
 var totalChanges = 0;
 var greatestIncrease = changes[0];
 var greatestDecrease = changes[0];
+
+// Iterate over the list of monthly changes
 for (var index = 0; index < changes.length; index++) {
+
+  // Add each change to the total chnages variable 
   totalChanges = totalChanges + changes[index][1];
 
+  // If the current change is great than the previous save change update the tracker variable
   if (changes[index][1] > greatestIncrease[1]) {
+
+    // Add month and chnage to tracker variable 
     greatestIncrease = changes[index];
   }
 
+  // If the current change is smaller than the previously save change update the tracker variable 
   if (changes[index][1] < greatestDecrease[1]) {
     greatestDecrease = changes[index];
   }
 }
 
+// Calculate average monthly change
 var averageChange = totalChanges / (totalMonths - 1);
 
+// Print out final values using template literal instead of concatination to make formating eaiser 
+//  For average change used the round function and mutiplied by 100 to round to two decimal places
 console.log(`Financial Analysis
 ----------------
 Total Months: ${totalMonths}
